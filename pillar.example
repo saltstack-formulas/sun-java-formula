@@ -1,0 +1,9 @@
+java_home: /usr/lib/java
+
+java:
+  source: http://<yourhost>/jdk-linux-server-x64-1.7.0.45.tar.gz
+  source_hash: md5=92f56f903483750818ffc3a4f41fe779
+  version_name: jdk-linux-server-x64-1.7.0.45
+  tgz: {{ grains.get('java_tgz', 'jdk-linux-server-x64-1.7.0.45.tar.gz') }}
+  prefix: /usr/share/java
+
