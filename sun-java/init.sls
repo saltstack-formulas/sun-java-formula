@@ -1,5 +1,5 @@
 {%- set java_tgz       = salt['pillar.get']('java:tgz', 'jdk-linux-server-x64-1.7.0.45_22-bin.tar.gz') %}
-{%- set tgz_path       = '/tmp/' + java_tgz %}
+{%- set tgz_path       = salt['pillar.get']('downloads_path', '/tmp') + '/' + java_tgz %}
 {%- set source         = salt['pillar.get']('java:source', '') %}
 {%- set source_hash    = salt['pillar.get']('java:source_hash', '') %}
 {%- set java_home      = salt['pillar.get']('java_home', '/usr/lib/java') %}
