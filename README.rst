@@ -17,7 +17,7 @@ Available states
 
 ``sun-java``
 
-Downloads the tarball from the master (must exist as sun-java/files/<tgz>) or downloads from the source URL if configured and installs the package. It will then configure alternatives and place /etc/profile.d/java.sh.  Please see the pillar.example for configuration.
+Downloads the tarball from the java:source_url configured as either a pillar or grain (will not do anything if source_url is omitted) and unpacks the package in java:prefix (defaults to /usr/share/java). It will then configure alternatives and place /etc/profile.d/java.sh.  Please see the pillar.example for configuration.
 
 Requires RedHat/CentOS 5.X or RedHat/CentOS 6.X - should also work on Debian/Ubuntu.
 
