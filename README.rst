@@ -1,6 +1,6 @@
-===
+========
 sun-java
-===
+========
 
 Formula to set up and configure Java JREs and JDKs from a tarball archive sourced via URL.
 
@@ -22,6 +22,7 @@ if source_url is omitted. Then unpacks the archive into java:prefix (defaults to
 Will use the alternatives system to link the installation to java_home. Please see the pillar.example for configuration.
 
 ``sun-java.env``
+----------------
 
 An addition to allow easy use - places a java profile in /etc/profile.d - this way JAVA_HOME and the PATH are set correctly for all system users.
 
