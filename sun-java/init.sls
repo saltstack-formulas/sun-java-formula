@@ -15,13 +15,11 @@ unpack-jdk-tarball:
     - cwd: {{ java.prefix }}
     - unless: test -d {{ java.java_real_home }}
     - require:
-      - file.directory: {{ java.prefix }}
+      - file: {{ java.prefix }}
   alternatives.install:
     - name: java-home-link
     - link: {{ java.java_home }}
     - path: {{ java.java_real_home }}
     - priority: 30
-    - require:
-      - file.directory: {{ java.prefix }}
 
 {%- endif %}
