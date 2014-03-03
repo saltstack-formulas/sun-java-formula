@@ -3,10 +3,15 @@
 
 {%- set java_home      = salt['grains.get']('java_home', salt['pillar.get']('java_home', '/usr/lib/java')) %}
 
-{%- set version_name   = g.get('version_name', p.get('version_name')) %}
-{%- set source_url     = g.get('source_url', p.get('source_url')) %}
-{%- set dl_opts        = g.get('dl_opts', p.get('dl_opts', '-L')) %}
-{%- set prefix         = g.get('prefix', p.get('prefix', '/usr/share/java')) %}
+{%- set default_version_name = 'jdk1.7.0_45' %}
+{%- set default_prefix       = '/usr/share/java' %}
+{%- set default_source_url   = 'http://download.oracle.com/otn-pub/java/jdk/7u45-b18/jdk-7u45-linux-x64.tar.gz' %}
+{%- set default_dl_opts      = '-b gpw_e24=http%3A%2F%2Fwww.oracle.com -L' %}
+
+{%- set version_name   = g.get('version_name', p.get('version_name', default_version_name)) %}
+{%- set source_url     = g.get('source_url', p.get('source_url', default_source_url)) %}
+{%- set dl_opts        = g.get('dl_opts', p.get('dl_opts', default_dl_opts)) %}
+{%- set prefix         = g.get('prefix', p.get('prefix', default_prefix)) %}
 {%- set java_real_home = prefix + '/' + version_name %}
 
 {%- set java = {} %}
