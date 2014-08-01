@@ -8,6 +8,7 @@
     - user: root
     - group: root
     - mode: 755
+    - makedirs: True
 
 unpack-jdk-tarball:
   cmd.run:
