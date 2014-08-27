@@ -16,6 +16,7 @@ Available states
     :local:
 
 ``sun-java``
+------------
 
 Downloads the tarball from the java:source_url configured as either a pillar or grain and will not do anything
 if source_url is omitted. Then unpacks the archive into java:prefix (defaults to /usr/share/java).
