@@ -6,8 +6,7 @@ include:
   - sun-java
 
 unzip:
-  pkg:
-    - installed
+  pkg.installed
 
 download-jce-zip:
   cmd.run:
