@@ -3,9 +3,9 @@
 
 {%- set java_home      = salt['grains.get']('java_home', salt['pillar.get']('java_home', '/usr/lib/java')) %}
 
-{%- set default_version_name = 'jdk1.8.0_45' %}
+{%- set default_version_name = 'jdk1.8.0_51' %}
 {%- set default_prefix       = '/usr/share/java' %}
-{%- set default_source_url   = 'http://download.oracle.com/otn-pub/java/jdk/8u45-b14/jdk-8u45-linux-x64.tar.gz' %}
+{%- set default_source_url   = 'http://download.oracle.com/otn-pub/java/jdk/8u51-b16/jdk-8u51-linux-x64.tar.gz' %}
 {%- set default_jce_url      = 'http://download.oracle.com/otn-pub/java/jce/8/jce_policy-8.zip' %}
 {%- set default_dl_opts      = '-b oraclelicense=accept-securebackup-cookie -L' %}
 
