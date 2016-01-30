@@ -22,6 +22,11 @@ Downloads the tarball from the java:source_url configured as either a pillar or 
 if source_url is omitted. Then unpacks the archive into java:prefix (defaults to /usr/share/java).
 Will use the alternatives system to link the installation to java_home. Please see the pillar.example for configuration.
 
+``sun-java.jce``
+----------------
+
+Downloads and installs the Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files. Will include/extend the sun-java state.
+
 ``sun-java.env``
 ----------------
 
