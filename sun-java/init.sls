@@ -29,7 +29,7 @@ unpack-jdk-tarball:
     - source_hash: sha256={{ java.source_hash }}
     {%- endif %}
     - archive_format: tar
-    - tar_options: z
+    - options: z
     - user: root
     - group: root
     - if_missing: {{ java.java_real_home }}
