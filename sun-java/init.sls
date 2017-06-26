@@ -21,13 +21,30 @@ download-jdk-tarball:
     - require:
       - file: java-install-dir
 
+  {%- if java.source_hash %}
+
+# FIXME: We need to check hash sum separately, because
+# ``archive.extracted`` state does not support integrity verification
+# for local archives prior to and including Salt release 2016.11.6.
+#
+# See: https://github.com/saltstack/salt/pull/41914
+
+check-jdk-tarball:
+  module.run:
+    - name: file.check_hash
+    - path: {{ tarball_file }}
+    - file_hash: {{ java.source_hash }}
+    - onchanges:
+      - download-jdk-tarball
+    - require_in:
+      - archive: unpack-jdk-tarball
+
+  {%- endif %}
+
 unpack-jdk-tarball:
   archive.extracted:
     - name: {{ java.prefix }}
     - source: file://{{ tarball_file }}
-    {%- if java.source_hash %}
-    - source_hash: sha256={{ java.source_hash }}
-    {%- endif %}
     - archive_format: tar
     - user: root
     - group: root
