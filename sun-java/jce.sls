@@ -2,7 +2,7 @@
 
 {%- if java.jce_url is defined %}
 
-  {%- set zip_file = 'UnlimitedJCEPolicy.zip' -%}
+  {%- set zip_file = salt['file.join'](java.jre_lib_sec, 'UnlimitedJCEPolicy.zip') %}
 
 include:
   - sun-java
@@ -13,17 +13,23 @@ unzip:
 download-jce-zip:
   cmd.run:
     - name: curl {{ java.dl_opts }} -o '{{ zip_file }}' '{{ java.jce_url }}'
-    - cwd: {{ java.jre_lib_sec }}
-    - creates: {{ java.jre_lib_sec + '/' + zip_file }}
+    - creates: {{ zip_file }}
     - require:
       - archive: unpack-jdk-tarball
 
+# FIXME: use ``archive.extracted`` state.
+# Be aware that it does not support integrity verification
+# for local archives prior to and including Salt release 2016.11.6.
+#
+# See: https://github.com/saltstack/salt/pull/41914
+
   {%- if java.jce_hash %}
 
-check-sha256-hash:
-  cmd.run:
-    - name: sha256sum '{{ zip_file }}' | grep '^{{ java.jce_hash }} '
-    - cwd: {{ java.jre_lib_sec }}
+check-jce-zip:
+  module.run:
+    - name: file.check_hash
+    - path: {{ zip_file }}
+    - file_hash: {{ java.jce_hash }}
     - onchanges:
       - cmd: download-jce-zip
     - require_in:
