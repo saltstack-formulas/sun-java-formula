@@ -4,7 +4,7 @@
 
 {%- if java.source_url is defined %}
 
-  {%- set tarball_file = java.prefix + '/' + java.source_url.split('/') | last %}
+  {%- set archive_file = salt['file.join'](java.prefix, salt['file.basename'](java.source_url)) %}
 
 java-install-dir:
   file.directory:
@@ -14,10 +14,10 @@ java-install-dir:
     - mode: 755
     - makedirs: True
 
-download-jdk-tarball:
+download-jdk-archive:
   cmd.run:
-    - name: curl {{ java.dl_opts }} -o '{{ tarball_file }}' '{{ java.source_url }}'
-    - unless: test -d {{ java.java_real_home }} || test -f {{ tarball_file }}
+    - name: curl {{ java.dl_opts }} -o '{{ archive_file }}' '{{ java.source_url }}'
+    - unless: test -d {{ java.java_real_home }} || test -f {{ archive_file }}
     - require:
       - file: java-install-dir
 
@@ -29,28 +29,28 @@ download-jdk-tarball:
 #
 # See: https://github.com/saltstack/salt/pull/41914
 
-check-jdk-tarball:
+check-jdk-archive:
   module.run:
     - name: file.check_hash
-    - path: {{ tarball_file }}
+    - path: {{ archive_file }}
     - file_hash: {{ java.source_hash }}
     - onchanges:
-      - download-jdk-tarball
+      - download-jdk-archive
     - require_in:
-      - archive: unpack-jdk-tarball
+      - archive: unpack-jdk-archive
 
   {%- endif %}
 
-unpack-jdk-tarball:
+unpack-jdk-archive:
   archive.extracted:
     - name: {{ java.prefix }}
-    - source: file://{{ tarball_file }}
+    - source: file://{{ archive_file }}
     - archive_format: tar
     - user: root
     - group: root
     - if_missing: {{ java.java_real_home }}
     - onchanges:
-      - cmd: download-jdk-tarball
+      - cmd: download-jdk-archive
 
 create-java-home:
   alternatives.install:
@@ -60,15 +60,15 @@ create-java-home:
     - priority: 30
     - onlyif: test -d {{ java.java_real_home }} && test ! -L {{ java.java_home }}
     - require:
-      - archive: unpack-jdk-tarball
+      - archive: unpack-jdk-archive
 
 update-java-home-symlink:
   file.symlink:
     - name: {{ java.java_home }}
     - target: {{ java.java_real_home }}
 
-remove-jdk-tarball:
+remove-jdk-archive:
   file.absent:
-    - name: {{ tarball_file }}
+    - name: {{ archive_file }}
 
 {%- endif %}

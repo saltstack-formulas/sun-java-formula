@@ -7,15 +7,16 @@
 include:
   - sun-java
 
-unzip:
-  pkg.installed
+sun-java-jce-unzip:
+  pkg.installed:
+    - name: unzip
 
-download-jce-zip:
+download-jce-archive:
   cmd.run:
     - name: curl {{ java.dl_opts }} -o '{{ zip_file }}' '{{ java.jce_url }}'
     - creates: {{ zip_file }}
     - require:
-      - archive: unpack-jdk-tarball
+      - archive: unpack-jdk-archive
 
 # FIXME: use ``archive.extracted`` state.
 # Be aware that it does not support integrity verification
@@ -25,16 +26,16 @@ download-jce-zip:
 
   {%- if java.jce_hash %}
 
-check-jce-zip:
+check-jce-archive:
   module.run:
     - name: file.check_hash
     - path: {{ zip_file }}
     - file_hash: {{ java.jce_hash }}
     - onchanges:
-      - cmd: download-jce-zip
+      - cmd: download-jce-archive
     - require_in:
       - cmd: backup-non-jce-jar
-      - cmd: unpack-jce-zip
+      - cmd: unpack-jce-archive
 
   {%- endif %}
 
@@ -44,14 +45,14 @@ backup-non-jce-jar:
     - cwd: {{ java.jre_lib_sec }}
     - creates: {{ java.jre_lib_sec ~ "/US_export_policy.jar.nonjce" }}
 
-unpack-jce-zip:
+unpack-jce-archive:
   cmd.run:
     - name: unzip -j {{ zip_file }}
     - cwd: {{ java.jre_lib_sec }}
     - creates: {{ java.jre_lib_sec ~ "/US_export_policy.jar" }}
     - require:
       - pkg: unzip
-      - cmd: download-jce-zip
+      - cmd: download-jce-archive
       - cmd: backup-non-jce-jar
 
 {%- endif %}
