@@ -70,5 +70,7 @@ update-java-home-symlink:
 remove-jdk-archive:
   file.absent:
     - name: {{ archive_file }}
+    - require:
+      - archive: unpack-jdk-archive
 
 {%- endif %}
