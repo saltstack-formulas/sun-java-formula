@@ -1,10 +1,14 @@
 java_home: /usr/lib/java
 java:
-  source_url: http://<somehost>/jdk-linux-server-x64-1.7.0.45.tar.gz
-  jce_url: http://<somehost>/UnlimitedJCEPolicyJDK7.zip
-  version_name: jdk-linux-server-x64-1.7.0.45
+  source_url: http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.tar.gz
+  source_hash: sha256=62b215bdfb48bace523723cdbb2157c665e6a25429c73828a32f00e587301236
+  jce_url: http://download.oracle.com/otn-pub/java/jce/8/jce_policy-8.zip
+  jce_hash: sha256=f3020a3922efd6626c2fff45695d527f34a8020e938a49292561f18ad1320b59
+  version_name: jdk1.8.0_131
   prefix: /usr/share/java
-  dl_opts: -L
+  dl_opts: -L -s
+  java_real_home: /usr/share/java/jdk1.8.0_131
+  jre_lib_sec: /usr/share/java/jdk1.8.0_131/jre/lib/security
 
 # java:version_name is the name of the top-level directory inside the tarball
 # java:prefix is where the tarball is unpacked into - prefix/version_name being
