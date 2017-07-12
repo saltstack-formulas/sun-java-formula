@@ -13,6 +13,12 @@ sun-java-jce-unzip:
   pkg.installed:
     - name: unzip
 
+# curl fails (rc=23) if file exists
+{{ zip_file }}:
+  file.absent:
+    - require_in:
+      - download-jce-archive
+
 download-jce-archive:
   cmd.run:
     - name: curl {{ java.dl_opts }} -o '{{ zip_file }}' '{{ java.jce_url }}'
