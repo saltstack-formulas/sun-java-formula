@@ -14,10 +14,17 @@ java-install-dir:
     - mode: 755
     - makedirs: True
 
+# curl fails (rc=23) if file exists (interrupte formula?)
+{{ archive_file }}:
+  file.absent:
+    - require_in:
+      - download-jdk-archive
+
 download-jdk-archive:
   cmd.run:
     - name: curl {{ java.dl_opts }} -o '{{ archive_file }}' '{{ java.source_url }}'
-    - unless: test -d {{ java.java_real_home }} || test -f {{ archive_file }}
+    - unless: test -f {{ java.java_realcmd }} || test -f {{ archive_file }}
+      ## noting corrupt archive_file is undetected; ##
     - require:
       - file: java-install-dir
 
@@ -52,25 +59,20 @@ unpack-jdk-archive:
     - onchanges:
       - cmd: download-jdk-archive
 
-create-java-home:
-  alternatives.install:
-    - name: java-home
-    - link: {{ java.java_home }}
-    - path: {{ java.java_real_home }}
-    - priority: 30
-    - onlyif: test -d {{ java.java_real_home }} && test ! -L {{ java.java_home }}
-    - require:
-      - archive: unpack-jdk-archive
-
-update-java-home-symlink:
+update-javahome-symlink:
   file.symlink:
     - name: {{ java.java_home }}
     - target: {{ java.java_real_home }}
+    - require:
+      - unpack-jdk-archive
 
 remove-jdk-archive:
   file.absent:
     - name: {{ archive_file }}
     - require:
       - archive: unpack-jdk-archive
+
+include:
+- sun-java.env
 
 {%- endif %}
