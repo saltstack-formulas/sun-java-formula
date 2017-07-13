@@ -16,8 +16,8 @@
 {%- set default_jce_url      = 'http://download.oracle.com/otn-pub/java/jce/' + release + '/jce_policy-' + release + '.zip' %}
 {%- set default_jce_hash     = 'sha256=f3020a3922efd6626c2fff45695d527f34a8020e938a49292561f18ad1320b59' %}
 {%- set default_dl_opts      = '-b oraclelicense=accept-securebackup-cookie -L -s' %}
-{%- set default_unpack_opts  = 'z' %}
 {%- set default_symlink      = '/usr/bin/java' %}
+{%- set default_alts_priority = '301800111' %}
 
 {%- set default_version_name = 'jdk1.' + release + '.' + major + '_' + minor %}
 {%- set archive_type         = g.get('archive_type', p.get('archive_type', 'tar' )) %}
@@ -46,7 +46,7 @@
 {%- set java_realcmd         = g.get('realcmd', p.get('realcmd', java_real_home + '/bin/java' )) %}
 {%- set javac_symlink        = java_symlink + 'c' %}
 {%- set javac_realcmd        = java_realcmd + 'c' %}
-{%- set unpack_opts          = g.get('unpack_opts', p.get('unpack_opts', default_unpack_opts )) %}
+{%- set alts_priority        = g.get('alts_priority', p.get('alts_priority', default_alts_priority )) %}
 
 {%- set java = {} %}
 {%- do java.update( { 'version_name'   : version_name,
@@ -59,10 +59,10 @@
                       'prefix'         : prefix,
                       'java_real_home' : java_real_home,
                       'jre_lib_sec'    : jre_lib_sec,
-                      'unpack_opts'    : unpack_opts,
                       'archive_type'   : archive_type,
                       'java_symlink'   : java_symlink,
                       'java_realcmd'   : java_realcmd,
                       'javac_symlink'  : javac_symlink,
                       'javac_realcmd'  : javac_realcmd,
+                      'alts_priority'  : alts_priority,
                     } ) %}

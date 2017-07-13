@@ -6,6 +6,9 @@
 
   {%- set archive_file = salt['file.join'](java.prefix, salt['file.basename'](java.source_url)) %}
 
+include:
+- sun-java.env
+
 java-install-dir:
   file.directory:
     - name: {{ java.prefix }}
@@ -15,6 +18,7 @@ java-install-dir:
     - makedirs: True
 
 # curl fails (rc=23) if file exists (interrupte formula?)
+# note corrupt archive_file is undetected by test -f  ##
 {{ archive_file }}:
   file.absent:
     - require_in:
@@ -23,8 +27,7 @@ java-install-dir:
 download-jdk-archive:
   cmd.run:
     - name: curl {{ java.dl_opts }} -o '{{ archive_file }}' '{{ java.source_url }}'
-    - unless: test -f {{ java.java_realcmd }} || test -f {{ archive_file }}
-      ## noting corrupt archive_file is undetected; ##
+    - unless: test -f {{ java.java_realcmd }}
     - require:
       - file: java-install-dir
 
@@ -52,7 +55,7 @@ unpack-jdk-archive:
   archive.extracted:
     - name: {{ java.prefix }}
     - source: file://{{ archive_file }}
-    - archive_format: tar
+    - archive_format: {{ java.archive_type }}
     - user: root
     - group: root
     - if_missing: {{ java.java_real_home }}
@@ -71,8 +74,5 @@ remove-jdk-archive:
     - name: {{ archive_file }}
     - require:
       - archive: unpack-jdk-archive
-
-include:
-- sun-java.env
 
 {%- endif %}

@@ -1,5 +1,8 @@
 {%- from 'sun-java/settings.sls' import java with context %}
 
+include:
+- sun-java
+
 jdk-config:
   file.managed:
     - name: /etc/profile.d/java.sh
@@ -17,9 +20,7 @@ javahome-alt-install:
     - name: java-home
     - link: {{ java.java_home }}
     - path: {{ java.java_real_home }}
-    - priority: 301800111
-    - require:
-      - update-javahome-symlink
+    - priority: {{ java.alts_priority }}
 
 # ensure javahome alternative
 javahome-alt-set:
@@ -35,7 +36,7 @@ java-alt-install:
     - name: java
     - link: {{ java.java_symlink }}
     - path: {{ java.java_realcmd }}
-    - priority: 301800111
+    - priority: {{ java.alts_priority }}
     - require:
       - javahome-alt-set
 
@@ -53,7 +54,7 @@ javac-alt-install:
     - name: javac
     - link: {{ java.javac_symlink }}
     - path: {{ java.javac_realcmd }}
-    - priority: 301800111
+    - priority: {{ java.alts_priority }}
     - require:
       - java-alt-set
 
@@ -64,12 +65,3 @@ javac-alt-set:
   - path: {{ java.javac_realcmd }}
   - require:
     - javac-alt-install
-
-# source PATH with our JAVA_HOME
-java-source-file:
-  cmd.run:
-  - name: source /etc/profile
-  - cwd: /root
-  - require:
-    - java-alt-set
-
