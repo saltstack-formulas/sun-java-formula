@@ -17,7 +17,7 @@ javahome-alt-install:
     - name: java-home
     - link: {{ java.java_home }}
     - path: {{ java.java_real_home }}
-    - priority: {{ java.alts_priority }}
+    - priority: {{ java.alt_priority }}
 
 # ensure javahome alternative
 javahome-alt-set:
@@ -33,7 +33,7 @@ java-alt-install:
     - name: java
     - link: {{ java.java_symlink }}
     - path: {{ java.java_realcmd }}
-    - priority: {{ java.alts_priority }}
+    - priority: {{ java.alt_priority }}
     - require:
       - javahome-alt-set
 
@@ -51,7 +51,7 @@ javac-alt-install:
     - name: javac
     - link: {{ java.javac_symlink }}
     - path: {{ java.javac_realcmd }}
-    - priority: {{ java.alts_priority }}
+    - priority: {{ java.alt_priority }}
     - require:
       - java-alt-set
 
