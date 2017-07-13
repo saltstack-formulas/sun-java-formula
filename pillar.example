@@ -9,7 +9,7 @@ java:
   dl_opts: -L -s
   java_real_home: /usr/share/java/jdk1.8.0_131
   jre_lib_sec: /usr/share/java/jdk1.8.0_131/jre/lib/security
-  alts_priority: 100000
+  alt_priority: 100000
 
 # java:version_name is the name of the top-level directory inside the tarball
 # java:prefix is where the tarball is unpacked into - prefix/version_name being
