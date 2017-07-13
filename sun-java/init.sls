@@ -15,7 +15,7 @@ java-install-dir:
     - makedirs: True
 
 # curl fails (rc=23) if file exists (interrupte formula?)
-# note corrupt archive_file is undetected by test -f  ##
+# and test -f cannot detect corrupted archive
 {{ archive_file }}:
   file.absent:
     - require_in:
