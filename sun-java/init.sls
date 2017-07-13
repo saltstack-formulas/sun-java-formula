@@ -6,9 +6,6 @@
 
   {%- set archive_file = salt['file.join'](java.prefix, salt['file.basename'](java.source_url)) %}
 
-include:
-- sun-java.env
-
 java-install-dir:
   file.directory:
     - name: {{ java.prefix }}

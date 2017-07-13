@@ -1,8 +1,5 @@
 {%- from 'sun-java/settings.sls' import java with context %}
 
-include:
-- sun-java
-
 jdk-config:
   file.managed:
     - name: /etc/profile.d/java.sh
