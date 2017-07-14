@@ -17,6 +17,7 @@ javahome-alt-install:
     - name: java-home
     - link: {{ java.java_home }}
     - path: {{ java.java_real_home }}
+    - unless: test -d {{ java.java_home }}
     - priority: {{ java.alt_priority }}
 
 # ensure javahome alternative
