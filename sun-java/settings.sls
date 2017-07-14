@@ -1,7 +1,7 @@
 {% set p  = salt['pillar.get']('java', {}) %}
 {% set g  = salt['grains.get']('java', {}) %}
 
-{%- set java_home            = salt['grains.get']('java_home', salt['pillar.get']('java_home', '/usr/lib/java')) %}
+{%- set java_home    = salt['grains.get']('java_home', salt['pillar.get']('java_home', '/usr/lib/oraclejava')) %}
 
 {%- set release              = '8' %}
 {%- set major                = '0' %}
@@ -9,7 +9,7 @@
 {%- set build		     = '-b11' %}
 {%- set dirhash              = '/d54c1d3a095b4ff2b6607d096fa80163/jdk-' %}
 
-{%- set default_prefix       = '/usr/share/java' %}
+{%- set default_prefix       = '/usr/share/oraclejava' %}
 {%- set default_source_url   = 'http://download.oracle.com/otn-pub/java/jdk/' + release + 'u' + minor + build + dirhash + release + 'u' + minor + '-linux-x64.tar.gz' %}
 {# See Oracle Java SE checksums page here: https://www.oracle.com/webfolder/s/digest/8u131checksum.html #}
 {%- set default_source_hash  = 'sha256=62b215bdfb48bace523723cdbb2157c665e6a25429c73828a32f00e587301236' %}
