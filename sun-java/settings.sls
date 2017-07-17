@@ -1,12 +1,12 @@
 {% set p  = salt['pillar.get']('java', {}) %}
 {% set g  = salt['grains.get']('java', {}) %}
 
-{%- set java_home    = salt['grains.get']('java_home', salt['pillar.get']('java_home', '/usr/lib/java')) %}
+{%- set java_home            = salt['grains.get']('java_home', salt['pillar.get']('java_home', '/usr/lib/java')) %}
 
 {%- set release              = '8' %}
 {%- set major                = '0' %}
 {%- set minor                = '131' %}
-{%- set build		     = '-b11' %}
+{%- set build                = '-b11' %}
 {%- set dirhash              = '/d54c1d3a095b4ff2b6607d096fa80163/jdk-' %}
 
 {%- set default_prefix       = '/usr/share/java' %}
