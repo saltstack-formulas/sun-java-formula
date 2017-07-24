@@ -16,17 +16,18 @@ java-install-dir:
 
 # curl fails (rc=23) if file exists (interrupte formula?)
 # and test -f cannot detect corrupted archive
-{{ archive_file }}:
+sun-java-remove-prev-archive:
   file.absent:
-    - require_in:
-      - cmd: download-jdk-archive
+    - name: {{ archive_file }}
+    - require:
+      - file: java-install-dir
 
 download-jdk-archive:
   cmd.run:
     - name: curl {{ java.dl_opts }} -o '{{ archive_file }}' '{{ java.source_url }}'
     - unless: test -f {{ java.java_realcmd }}
     - require:
-      - file: java-install-dir
+      - file: sun-java-remove-prev-archive
 
   {%- if java.source_hash %}
 
