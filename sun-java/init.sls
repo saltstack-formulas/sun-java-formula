@@ -56,7 +56,7 @@ unpack-jdk-archive:
     - archive_format: {{ java.archive_type }}
     - user: root
     - group: root
-    - if_missing: {{ java.java_real_home }}
+    - if_missing: {{ java.java_realcmd }}
     - onchanges:
       - cmd: download-jdk-archive
 
