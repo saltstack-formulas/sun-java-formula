@@ -19,7 +19,7 @@ java-install-dir:
 {{ archive_file }}:
   file.absent:
     - require_in:
-      - download-jdk-archive
+      - cmd: download-jdk-archive
 
 download-jdk-archive:
   cmd.run:
@@ -42,7 +42,7 @@ check-jdk-archive:
     - path: {{ archive_file }}
     - file_hash: {{ java.source_hash }}
     - onchanges:
-      - download-jdk-archive
+      - cmd: download-jdk-archive
     - require_in:
       - archive: unpack-jdk-archive
 
@@ -64,7 +64,7 @@ update-javahome-symlink:
     - name: {{ java.java_home }}
     - target: {{ java.java_real_home }}
     - require:
-      - unpack-jdk-archive
+      - archive: unpack-jdk-archive
 
 remove-jdk-archive:
   file.absent:
