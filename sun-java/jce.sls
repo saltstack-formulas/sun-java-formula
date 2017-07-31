@@ -13,6 +13,13 @@ sun-java-jce-unzip:
   pkg.installed:
     - name: unzip
 
+# curl fails (rc=23) if file exists
+sun-java-remove-old-jce-archive:
+  file.absent:
+    - name: {{ zip_file }}
+    - require:
+      - pkg: sun-java-jce-unzip 
+
 download-jce-archive:
   cmd.run:
     - name: curl {{ java.dl_opts }} -o '{{ zip_file }}' '{{ java.jce_url }}'
@@ -21,7 +28,7 @@ download-jce-archive:
         test ! -f {{ policy_jar }} ||
         test ! -f {{ policy_jar_bak }}
     - require:
-      - archive: unpack-jdk-archive
+      - file: sun-java-remove-old-jce-archive
 
 # FIXME: use ``archive.extracted`` state.
 # Be aware that it does not support integrity verification

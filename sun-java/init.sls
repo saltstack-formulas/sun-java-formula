@@ -14,12 +14,20 @@ java-install-dir:
     - mode: 755
     - makedirs: True
 
+# curl fails (rc=23) if file exists (interrupte formula?)
+# and test -f cannot detect corrupted archive
+sun-java-remove-prev-archive:
+  file.absent:
+    - name: {{ archive_file }}
+    - require:
+      - file: java-install-dir
+
 download-jdk-archive:
   cmd.run:
     - name: curl {{ java.dl_opts }} -o '{{ archive_file }}' '{{ java.source_url }}'
-    - unless: test -d {{ java.java_real_home }} || test -f {{ archive_file }}
+    - unless: test -f {{ java.java_realcmd }}
     - require:
-      - file: java-install-dir
+      - file: sun-java-remove-prev-archive
 
   {%- if java.source_hash %}
 
@@ -35,7 +43,7 @@ check-jdk-archive:
     - path: {{ archive_file }}
     - file_hash: {{ java.source_hash }}
     - onchanges:
-      - download-jdk-archive
+      - cmd: download-jdk-archive
     - require_in:
       - archive: unpack-jdk-archive
 
@@ -45,27 +53,19 @@ unpack-jdk-archive:
   archive.extracted:
     - name: {{ java.prefix }}
     - source: file://{{ archive_file }}
-    - archive_format: tar
+    - archive_format: {{ java.archive_type }}
     - user: root
     - group: root
-    - if_missing: {{ java.java_real_home }}
+    - if_missing: {{ java.java_realcmd }}
     - onchanges:
       - cmd: download-jdk-archive
 
-create-java-home:
-  alternatives.install:
-    - name: java-home
-    - link: {{ java.java_home }}
-    - path: {{ java.java_real_home }}
-    - priority: 30
-    - onlyif: test -d {{ java.java_real_home }} && test ! -L {{ java.java_home }}
-    - require:
-      - archive: unpack-jdk-archive
-
-update-java-home-symlink:
+update-javahome-symlink:
   file.symlink:
     - name: {{ java.java_home }}
     - target: {{ java.java_real_home }}
+    - require:
+      - archive: unpack-jdk-archive
 
 remove-jdk-archive:
   file.absent:
