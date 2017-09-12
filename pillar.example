@@ -1,26 +1,36 @@
 java_home: /usr/lib/java
 # See Oracle Java SE checksums page here: https://www.oracle.com/webfolder/s/digest/8u144checksum.html
 java:
-  ### Values should refer to either 'jdk' or 'jre' not both. #####
-  source_url: http://download.oracle.com/otn-pub/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jdk-8u144-linux-x64.tar.gz
-  source_hash: sha256=e8a341ce566f32c3d06f6d0f0eeea9a0f434f538d22af949ae58bc86f2eeaae4
-  jce_url: http://download.oracle.com/otn-pub/java/jce/8/jce_policy-8.zip
-  jce_hash: sha256=f3020a3922efd6626c2fff45695d527f34a8020e938a49292561f18ad1320b59
-  version_name: jdk1.8.0_144
-  dl_opts: -b oraclelicense=accept-securebackup-cookie -L -s
   prefix: /usr/share/java
   java_symlink: /usr/bin/java
-  jre_lib_sec: /usr/share/java/jdk1.8.0_144/jre/lib/security
-  java_real_home: /usr/share/java/jdk1.8.0_144
-  java_realcmd: /usr/share/java/jdk1.8.0_144/bin/java
+  javac_symlink: /usr/bin/javac
+  dl_opts: -b oraclelicense=accept-securebackup-cookie -L -s
   alt_priority: 301800111
   archive_type: tar
 
-  ### javac applies to jdk only ###
-  javac_symlink: /usr/bin/javac
-  javac_realcmd: /usr/share/java/jdk1.8.0_144/bin/javac
+  ## JDK ##
+  # version_name: jdk1.8.0_144
+  # source_url: http://download.oracle.com/otn-pub/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jdk-8u144-linux-x64.tar.gz
+  # source_hash: sha256=e8a341ce566f32c3d06f6d0f0eeea9a0f434f538d22af949ae58bc86f2eeaae4
+  # jre_lib_sec: /usr/share/java/jdk1.8.0_144/jre/lib/security
+  # java_real_home: /usr/share/java/jdk1.8.0_144
+  # java_realcmd: /usr/share/java/jdk1.8.0_144/bin/java
+  # javac_realcmd: /usr/share/java/jdk1.8.0_144/bin/javac
+
+  ## or JRE ##
+  version_name: jre1.8.0_144
+  source_url: http://download.oracle.com/otn-pub/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jre-8u144-linux-x64.tar.gz
+  source_hash: sha256=4e6e11aad54ae3c716a5607ee88d81f3f1e8b5b23ee474b0272dba351ee9f28a
+  jre_lib_sec: /usr/share/java/jre1.8.0_144/jre/lib/security
+  java_real_home: /usr/share/java/jre1.8.0_144
+  java_realcmd: /usr/share/java/jre1.8.0_144/bin/java
+  javac_realcmd:
+
+  ## and JCE ##
+  jce_url: http://download.oracle.com/otn-pub/java/jce/8/jce_policy-8.zip
+  jce_hash: sha256=f3020a3922efd6626c2fff45695d527f34a8020e938a49292561f18ad1320b59
 
 # java:version_name is the name of the top-level directory inside the tarball
 # java:prefix is where the tarball is unpacked into - prefix/version_name being
-#             the location of the jdk
+#             the location of the jdk or jre
 # java:dl_opts - cli args to cURL

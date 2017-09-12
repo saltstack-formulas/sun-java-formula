@@ -45,7 +45,7 @@ java-alt-set:
     - require:
       - alternatives: java-alt-install
 
-# Add javac to alternatives
+# Add javac to alternatives if found
 javac-alt-install:
   alternatives.install:
     - name: javac
@@ -56,7 +56,7 @@ javac-alt-install:
       - alternatives: java-alt-set
     - onlyif: test -f {{ java.javac_realcmd }}
 
-# ensure javac alternative
+# ensure javac alternative if found
 javac-alt-set:
   alternatives.set:
     - name: javac
