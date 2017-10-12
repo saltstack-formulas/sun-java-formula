@@ -11,57 +11,23 @@ jdk-config:
     - context:
       java_home: {{ java.java_home }}
 
-# Add javahome to alternatives
-javahome-alt-install:
-  alternatives.install:
-    - name: java-home
-    - link: {{ java.java_home }}
-    - path: {{ java.java_real_home }}
-    - priority: {{ java.alt_priority }}
+javahome-link:
+  file.symlink:
+    - name: {{ java.java_home }}
+    - target: {{ java.java_real_home }}
 
-# ensure javahome alternative
-javahome-alt-set:
-  alternatives.set:
-    - name: java-home
-    - path: {{ java.java_real_home }}
+java-link:
+  file.symlink:
+    - name: {{ java.java_symlink }}
+    - target: {{ java.java_realcmd }}
     - require:
-      - alternatives: javahome-alt-install
+      - file: javahome-link
 
-# Add java to alternatives
-java-alt-install:
-  alternatives.install:
-    - name: java
-    - link: {{ java.java_symlink }}
-    - path: {{ java.java_realcmd }}
-    - priority: {{ java.alt_priority }}
-    - require:
-      - alternatives: javahome-alt-set
-
-# ensure java alternative
-java-alt-set:
-  alternatives.set:
-    - name: java
-    - path: {{ java.java_realcmd }}
-    - require:
-      - alternatives: java-alt-install
-
-# Add javac to alternatives if found
-javac-alt-install:
-  alternatives.install:
-    - name: javac
-    - link: {{ java.javac_symlink }}
-    - path: {{ java.javac_realcmd }}
-    - priority: {{ java.alt_priority }}
-    - require:
-      - alternatives: java-alt-set
+javac-link:
+  file.symlink:
+    - name: {{ java.javac_symlink }}
+    - target: {{ java.javac_realcmd }}
     - onlyif: test -f {{ java.javac_realcmd }}
-
-# ensure javac alternative if found
-javac-alt-set:
-  alternatives.set:
-    - name: javac
-    - path: {{ java.javac_realcmd }}
     - require:
-      - alternatives: javac-alt-install
-    - onlyif: test -f {{ java.javac_realcmd }}
+      - file: java-link
 
