@@ -5,7 +5,6 @@ java:
   java_symlink: /usr/bin/java
   javac_symlink: /usr/bin/javac
   dl_opts: -b oraclelicense=accept-securebackup-cookie -L -s
-  alt_priority: 301800111
   archive_type: tar
 
   ## JDK ##
