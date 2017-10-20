@@ -53,8 +53,8 @@ update-java-home-symlink:
 
 create-symlink-java-bin:
   file.symlink:
-    - name: {{ java.java_real_home }}/bin/java
-    - target: /usr/bin/java
+    - name: /usr/bin/java 
+    - target: {{ java.java_real_home }}/bin/java
 
 remove-jdk-tarball:
   file.absent:
