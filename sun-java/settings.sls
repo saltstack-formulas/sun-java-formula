@@ -45,6 +45,7 @@
 {%- set java_realcmd         = g.get('realcmd', p.get('realcmd', java_real_home + '/bin/java' )) %}
 {%- set javac_symlink        = java_symlink + 'c' %}
 {%- set javac_realcmd        = java_realcmd + 'c' %}
+{%- set alt_priority         = g.get('alt_priority', p.get('alt_priority', None)) %}
 
 {%- set java = {} %}
 {%- do java.update( { 'version_name'   : version_name,
@@ -62,4 +63,5 @@
                       'java_realcmd'   : java_realcmd,
                       'javac_symlink'  : javac_symlink,
                       'javac_realcmd'  : javac_realcmd,
+                      'alt_priority'   : alt_priority,
                     } ) %}
