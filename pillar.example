@@ -7,6 +7,10 @@ java:
   dl_opts: -b oraclelicense=accept-securebackup-cookie -L -s
   archive_type: tar
 
+  # Enable alternatives feature by setting nonzero 'alt_priority' value here.
+  # Increase same value on each subsequent software installation.
+  # alt_priority: 301800111
+
   ## JDK ##
   version_name: jdk1.8.0_144
   source_url: http://download.oracle.com/otn-pub/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jdk-8u144-linux-x64.tar.gz
