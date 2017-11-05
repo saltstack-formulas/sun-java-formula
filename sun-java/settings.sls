@@ -17,7 +17,6 @@
 {%- set default_jce_hash     = 'sha256=f3020a3922efd6626c2fff45695d527f34a8020e938a49292561f18ad1320b59' %}
 {%- set default_dl_opts      = '-b oraclelicense=accept-securebackup-cookie -L -s' %}
 {%- set default_symlink      = '/usr/bin/java' %}
-{%- set default_alt_priority = '301800111' %}
 
 {%- set default_version_name = 'jdk1.' + release + '.' + major + '_' + minor %}
 {%- set archive_type         = g.get('archive_type', p.get('archive_type', 'tar' )) %}
@@ -46,7 +45,7 @@
 {%- set java_realcmd         = g.get('realcmd', p.get('realcmd', java_real_home + '/bin/java' )) %}
 {%- set javac_symlink        = java_symlink + 'c' %}
 {%- set javac_realcmd        = java_realcmd + 'c' %}
-{%- set alt_priority         = g.get('alt_priority', p.get('alt_priority', default_alt_priority )) %}
+{%- set alt_priority         = g.get('alt_priority', p.get('alt_priority', None)) %}
 
 {%- set java = {} %}
 {%- do java.update( { 'version_name'   : version_name,

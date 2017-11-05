@@ -5,8 +5,11 @@ java:
   java_symlink: /usr/bin/java
   javac_symlink: /usr/bin/javac
   dl_opts: -b oraclelicense=accept-securebackup-cookie -L -s
-  alt_priority: 301800111
   archive_type: tar
+
+  # Enable alternatives feature by setting nonzero 'alt_priority' value here.
+  # Increase same value on each subsequent software installation.
+  # alt_priority: 301800111
 
   ## JDK ##
   version_name: jdk1.8.0_152

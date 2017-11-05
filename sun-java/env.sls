@@ -11,6 +11,30 @@ jdk-config:
     - context:
       java_home: {{ java.java_home }}
 
+{% if java.alt_priority is none %}
+
+javahome-link:
+  file.symlink:
+    - name: {{ java.java_home }}
+    - target: {{ java.java_real_home }}
+
+java-link:
+  file.symlink:
+    - name: {{ java.java_symlink }}
+    - target: {{ java.java_realcmd }}
+    - require:
+      - file: javahome-link
+
+javac-link:
+  file.symlink:
+    - name: {{ java.javac_symlink }}
+    - target: {{ java.javac_realcmd }}
+    - onlyif: test -f {{ java.javac_realcmd }}
+    - require:
+      - file: java-link
+
+{% else %}
+
 # Add javahome to alternatives
 javahome-alt-install:
   alternatives.install:
@@ -64,4 +88,6 @@ javac-alt-set:
     - require:
       - alternatives: javac-alt-install
     - onlyif: test -f {{ java.javac_realcmd }}
+
+{% endif %}
 
