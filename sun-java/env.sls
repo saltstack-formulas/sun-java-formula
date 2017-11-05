@@ -1,5 +1,7 @@
 {%- from 'sun-java/settings.sls' import java with context %}
 
+{% if grains.os not in ('Windows',) %}
+
 jdk-config:
   file.managed:
     - name: /etc/profile.d/java.sh
@@ -11,7 +13,7 @@ jdk-config:
     - context:
       java_home: {{ java.java_home }}
 
-{% if java.alt_priority is none %}
+  {% if java.alt_priority is none %}
 
 javahome-link:
   file.symlink:
@@ -33,7 +35,7 @@ javac-link:
     - require:
       - file: java-link
 
-{% else %}
+  {% elif grains.os_family not in ('Arch', 'MacOS') %}
 
 # Add javahome to alternatives
 javahome-alt-install:
@@ -88,6 +90,8 @@ javac-alt-set:
     - require:
       - alternatives: javac-alt-install
     - onlyif: test -f {{ java.javac_realcmd }}
+
+  {% endif %}
 
 {% endif %}
 
