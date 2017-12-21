@@ -1,12 +1,39 @@
 java_home: /usr/lib/java
+# See Oracle Java SE checksums page here: https://www.oracle.com/webfolder/s/digest/8u152checksum.html
 java:
-  source_url: http://<somehost>/jdk-linux-server-x64-1.7.0.45.tar.gz
-  jce_url: http://<somehost>/UnlimitedJCEPolicyJDK7.zip
-  version_name: jdk-linux-server-x64-1.7.0.45
   prefix: /usr/share/java
-  dl_opts: -L
+  java_symlink: /usr/bin/java
+  javac_symlink: /usr/bin/javac
+  dl_opts: -b oraclelicense=accept-securebackup-cookie -L -s
+  archive_type: tar
+
+  # Enable alternatives feature by setting nonzero 'alt_priority' value here.
+  # Increase same value on each subsequent software installation.
+  # alt_priority: 301800111
+
+  ## JDK ##
+  version_name: jdk1.8.0_152
+  source_url: http://download.oracle.com/otn-pub/java/jdk/8u152-b16/aa0333dd3019491ca4f6ddbe78cdb6d0/jdk-8u152-linux-x64.tar.gz
+  source_hash: sha256=218b3b340c3f6d05d940b817d0270dfe0cfd657a636bad074dcabe0c111961bf
+  jre_lib_sec: /usr/share/java/jdk1.8.0_152/jre/lib/security
+  java_real_home: /usr/share/java/jdk1.8.0_152
+  java_realcmd: /usr/share/java/jdk1.8.0_152/bin/java
+  javac_realcmd: /usr/share/java/jdk1.8.0_152/bin/javac
+
+  ## or JRE ##
+  # version_name: jre1.8.0_152
+  # source_url: http://download.oracle.com/otn-pub/java/jdk/8u152-b16/aa0333dd3019491ca4f6ddbe78cdb6d0/jre-8u152-linux-x64.tar.gz
+  # source_hash: sha256=e75668f82c51ddd1ab6dd34c69cdb21644c7f9fa887640cdfb5d002e908d9e32
+  # jre_lib_sec: /usr/share/java/jre1.8.0_152/jre/lib/security
+  # java_real_home: /usr/share/java/jre1.8.0_152
+  # java_realcmd: /usr/share/java/jre1.8.0_152/bin/java
+  # javac_realcmd:
+
+  ## and JCE ##
+  jce_url: http://download.oracle.com/otn-pub/java/jce/8/jce_policy-8.zip
+  jce_hash: sha256=f3020a3922efd6626c2fff45695d527f34a8020e938a49292561f18ad1320b59
 
 # java:version_name is the name of the top-level directory inside the tarball
 # java:prefix is where the tarball is unpacked into - prefix/version_name being
-#             the location of the jdk
+#             the location of the jdk or jre
 # java:dl_opts - cli args to cURL
