@@ -39,8 +39,8 @@
 
 {%- set dl_opts              = g.get('dl_opts', p.get('dl_opts', default_dl_opts)) %}
 {%- set prefix               = g.get('prefix', p.get('prefix', default_prefix)) %}
-{%- set java_real_home       = prefix + '/' + version_name %}
-{%- set jre_lib_sec          = java_real_home + '/jre/lib/security' %}
+{%- set java_real_home       = g.get('java_real_home', p.get('java_real_home', prefix + '/' + version_name )) %}
+{%- set jre_lib_sec          = g.get('jre_lib_sec', p.get('jre_lib_sec', java_real_home + '/jre/lib/security' )) %}
 {%- set java_symlink         = g.get('java_symlink', p.get('java_symlink', default_symlink )) %}
 {%- set java_realcmd         = g.get('realcmd', p.get('realcmd', java_real_home + '/bin/java' )) %}
 {%- set javac_symlink        = java_symlink + 'c' %}
