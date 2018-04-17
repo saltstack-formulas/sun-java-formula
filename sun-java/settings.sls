@@ -5,14 +5,14 @@
 
 {%- set release              = '8' %}
 {%- set major                = '0' %}
-{%- set minor                = '162' %}
-{%- set build                = '-b12' %}
-{%- set dirhash              = '/0da788060d494f5095bf8624735fa2f1/jdk-' %}
+{%- set minor                = '172' %}
+{%- set build                = '-b11' %}
+{%- set dirhash              = '/a58eab1ec242421181065cdc37240b08/jdk-' %}
 
 {%- set default_prefix       = '/usr/share/java' %}
 {%- set default_source_url   = 'http://download.oracle.com/otn-pub/java/jdk/' + release + 'u' + minor + build + dirhash + release + 'u' + minor + '-linux-x64.tar.gz' %}
-{# See Oracle Java SE checksums page here: https://www.oracle.com/webfolder/s/digest/8u162checksum.html #}
-{%- set default_source_hash  = 'sha256=68ec82d47fd9c2b8eb84225b6db398a72008285fafc98631b1ff8d2229680257' %}
+{# See Oracle Java SE checksums page here: https://www.oracle.com/webfolder/s/digest/8u172checksum.html #}
+{%- set default_source_hash  = 'sha256=28a00b9400b6913563553e09e8024c286b506d8523334c93ddec6c9ec7e9d346' %}
 {%- set default_jce_url      = 'http://download.oracle.com/otn-pub/java/jce/' + release + '/jce_policy-' + release + '.zip' %}
 {%- set default_jce_hash     = 'sha256=f3020a3922efd6626c2fff45695d527f34a8020e938a49292561f18ad1320b59' %}
 {%- set default_dl_opts      = '-b oraclelicense=accept-securebackup-cookie -L -s' %}
