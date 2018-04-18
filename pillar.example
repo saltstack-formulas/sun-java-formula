@@ -1,5 +1,5 @@
 java_home: /usr/lib/java
-# See Oracle Java SE checksums page here: https://www.oracle.com/webfolder/s/digest/8u162checksum.html
+# See Oracle Java SE checksums page here: https://www.oracle.com/webfolder/s/digest/8u172checksum.html
 java:
   prefix: /usr/share/java
   java_symlink: /usr/bin/java
@@ -12,21 +12,21 @@ java:
   # alt_priority: 301800111
 
   ## JDK ##
-  version_name: jdk1.8.0_162
-  source_url: http://download.oracle.com/otn-pub/java/jdk/8u162-b12/0da788060d494f5095bf8624735fa2f1/jdk-8u162-linux-x64.tar.gz
-  source_hash: sha256=68ec82d47fd9c2b8eb84225b6db398a72008285fafc98631b1ff8d2229680257
-  jre_lib_sec: /usr/share/java/jdk1.8.0_162/jre/lib/security
-  java_real_home: /usr/share/java/jdk1.8.0_162
-  java_realcmd: /usr/share/java/jdk1.8.0_162/bin/java
-  javac_realcmd: /usr/share/java/jdk1.8.0_162/bin/javac
+  version_name: jdk1.8.0_172
+  source_url: http://download.oracle.com/otn-pub/java/jdk/8u172-b11/a58eab1ec242421181065cdc37240b08/jdk-8u172-linux-x64.tar.gz
+  source_hash: sha256=28a00b9400b6913563553e09e8024c286b506d8523334c93ddec6c9ec7e9d346
+  jre_lib_sec: /usr/share/java/jdk1.8.0_172/jre/lib/security
+  java_real_home: /usr/share/java/jdk1.8.0_172
+  java_realcmd: /usr/share/java/jdk1.8.0_172/bin/java
+  javac_realcmd: /usr/share/java/jdk1.8.0_172/bin/javac
 
   ## or JRE ##
-  # version_name: jre1.8.0_162
-  # source_url: http://download.oracle.com/otn-pub/java/jdk/8u162-b12/0da788060d494f5095bf8624735fa2f1/jre-8u162-linux-x64.tar.gz
-  # source_hash: sha256=dfa25ebd1f90bf74ad7ba2dacb0e08d884594e733c9a522b58256778031341a4
-  # jre_lib_sec: /usr/share/java/jre1.8.0_162/jre/lib/security
-  # java_real_home: /usr/share/java/jre1.8.0_162
-  # java_realcmd: /usr/share/java/jre1.8.0_162/bin/java
+  # version_name: jre1.8.0_172
+  # source_url: http://download.oracle.com/otn-pub/java/jdk/8u172-b11/a58eab1ec242421181065cdc37240b08/jre-8u172-linux-x64.tar.gz
+  # source_hash: sha256=f08f25aec2bdc86138ccba8fd5b904451e3afa1d24a88c85f28c2d84bfd45bad
+  # jre_lib_sec: /usr/share/java/jre1.8.0_172/jre/lib/security
+  # java_real_home: /usr/share/java/jre1.8.0_172
+  # java_realcmd: /usr/share/java/jre1.8.0_172/bin/java
   # javac_realcmd:
 
   ## and JCE ##
