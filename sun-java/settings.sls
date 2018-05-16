@@ -1,26 +1,43 @@
 {% set p  = salt['pillar.get']('java', {}) %}
 {% set g  = salt['grains.get']('java', {}) %}
 
-{%- set java_home            = salt['grains.get']('java_home', salt['pillar.get']('java_home', '/usr/lib/java')) %}
-
 {%- set release              = '8' %}
 {%- set major                = '0' %}
 {%- set minor                = '172' %}
 {%- set build                = '-b11' %}
 {%- set dirhash              = '/a58eab1ec242421181065cdc37240b08/jdk-' %}
 
-{%- set default_prefix       = '/usr/share/java' %}
-{%- set default_source_url   = 'http://download.oracle.com/otn-pub/java/jdk/' + release + 'u' + minor + build + dirhash + release + 'u' + minor + '-linux-x64.tar.gz' %}
 {# See Oracle Java SE checksums page here: https://www.oracle.com/webfolder/s/digest/8u172checksum.html #}
-{%- set default_source_hash  = 'sha256=28a00b9400b6913563553e09e8024c286b506d8523334c93ddec6c9ec7e9d346' %}
-{%- set default_jce_url      = 'http://download.oracle.com/otn-pub/java/jce/' + release + '/jce_policy-' + release + '.zip' %}
-{%- set default_jce_hash     = 'sha256=f3020a3922efd6626c2fff45695d527f34a8020e938a49292561f18ad1320b59' %}
-{%- set default_dl_opts      = '-b oraclelicense=accept-securebackup-cookie -L -s' %}
-{%- set default_symlink      = '/usr/bin/java' %}
+{%- set default_jce_hash = 'sha256=f3020a3922efd6626c2fff45695d527f34a8020e938a49292561f18ad1320b59' %}
 
 {%- set default_version_name = 'jdk1.' + release + '.' + major + '_' + minor %}
-{%- set archive_type         = g.get('archive_type', p.get('archive_type', 'tar' )) %}
 {%- set version_name         = g.get('version_name', p.get('version_name', default_version_name)) %}
+
+{% if grains.os == 'MacOS' %}
+  {% set archive = '-macosx-x64.dmg' %}
+  {% set default_source_hash = 'sha256=b0de04d3ec7fbf2e54e33e29c78ababa0a4df398ba490d4abb125b31ea8d663e' %}
+  {% set group = 'wheel' %}
+  {% set archive_type = g.get('archive_type', p.get('archive_type', 'dmg' )) %}
+  {% set java_home = salt['grains.get']('java_home', salt['pillar.get']('java_home', '/usr/local/lib/java')) %}
+  {% set prefix    = g.get('prefix', p.get('prefix', '/Library/Java/JavaVirtualMachines')) %}
+  {% set default_symlink = '/usr/local/bin/java' %}
+  {% set java_real_home = g.get('java_real_home', p.get('java_real_home', prefix + '/' + version_name + '.jdk/Contents/Home' )) %}
+{% else %}
+  {%- set archive = '-linux-x64.tar.gz' %}
+  {%- set default_source_hash = 'sha256=28a00b9400b6913563553e09e8024c286b506d8523334c93ddec6c9ec7e9d346' %}
+  {%- set group = 'root' %}
+  {%- set archive_type = g.get('archive_type', p.get('archive_type', 'tar' )) %}
+  {%- set java_home = salt['grains.get']('java_home', salt['pillar.get']('java_home', '/usr/lib/java')) %}
+  {%- set prefix    = g.get('prefix', p.get('prefix', '/usr/share/java')) %}
+  {%- set default_symlink = '/usr/bin/java' %}
+  {%- set java_real_home  = g.get('java_real_home', p.get('java_real_home', prefix + '/' + version_name )) %}
+{% endif %}
+
+{%- set uri = 'http://download.oracle.com/otn-pub/java/jdk/' %}
+{%- set default_source_url = uri + release + 'u' + minor + build + dirhash + release + 'u' + minor + archive %}
+{%- set default_jce_url    = uri + release + '/jce_policy-' + release + '.zip' %}
+{%- set default_dl_opts      = '-b oraclelicense=accept-securebackup-cookie -L -s' %}
+
 {%- set source_url           = g.get('source_url', p.get('source_url', default_source_url)) %}
 
 {%- if source_url == default_source_url %}
@@ -38,8 +55,6 @@
 {%- endif %}
 
 {%- set dl_opts              = g.get('dl_opts', p.get('dl_opts', default_dl_opts)) %}
-{%- set prefix               = g.get('prefix', p.get('prefix', default_prefix)) %}
-{%- set java_real_home       = g.get('java_real_home', p.get('java_real_home', prefix + '/' + version_name )) %}
 {%- set jre_lib_sec          = g.get('jre_lib_sec', p.get('jre_lib_sec', java_real_home + '/jre/lib/security' )) %}
 {%- set java_symlink         = g.get('java_symlink', p.get('java_symlink', default_symlink )) %}
 {%- set java_realcmd         = g.get('realcmd', p.get('realcmd', java_real_home + '/bin/java' )) %}
@@ -56,6 +71,7 @@
                       'dl_opts'        : dl_opts,
                       'java_home'      : java_home,
                       'prefix'         : prefix,
+                      'group'          : group,
                       'java_real_home' : java_real_home,
                       'jre_lib_sec'    : jre_lib_sec,
                       'archive_type'   : archive_type,
