@@ -3,11 +3,11 @@
 
 {%- set release              = '8' %}
 {%- set major                = '0' %}
-{%- set minor                = '172' %}
-{%- set build                = '-b11' %}
+{%- set minor                = '181' %}
+{%- set build                = '-b13' %}
 {%- set dirhash              = '/a58eab1ec242421181065cdc37240b08/jdk-' %}
 
-{# See Oracle Java SE checksums page here: https://www.oracle.com/webfolder/s/digest/8u172checksum.html #}
+{# See Oracle Java SE checksums page here: https://www.oracle.com/webfolder/s/digest/8u181checksum.html #}
 {%- set default_jce_hash = 'sha256=f3020a3922efd6626c2fff45695d527f34a8020e938a49292561f18ad1320b59' %}
 
 {%- set default_version_name = 'jdk1.' + release + '.' + major + '_' + minor %}
@@ -15,7 +15,7 @@
 
 {% if grains.os == 'MacOS' %}
   {% set archive = '-macosx-x64.dmg' %}
-  {% set default_source_hash = 'sha256=b0de04d3ec7fbf2e54e33e29c78ababa0a4df398ba490d4abb125b31ea8d663e' %}
+  {% set default_source_hash = 'sha256=3ea78e0107f855b47a55414fadaabd04b94e406050d615663d54200ec85efc9b' %}
   {% set group = 'wheel' %}
   {% set archive_type = g.get('archive_type', p.get('archive_type', 'dmg' )) %}
   {% set java_home = salt['grains.get']('java_home', salt['pillar.get']('java_home', '/usr/local/lib/java')) %}
@@ -24,7 +24,7 @@
   {% set java_real_home = g.get('java_real_home', p.get('java_real_home', prefix + '/' + version_name + '.jdk/Contents/Home' )) %}
 {% else %}
   {%- set archive = '-linux-x64.tar.gz' %}
-  {%- set default_source_hash = 'sha256=28a00b9400b6913563553e09e8024c286b506d8523334c93ddec6c9ec7e9d346' %}
+  {%- set default_source_hash = 'sha256=1845567095bfbfebd42ed0d09397939796d05456290fb20a83c476ba09f991d3' %}
   {%- set group = 'root' %}
   {%- set archive_type = g.get('archive_type', p.get('archive_type', 'tar' )) %}
   {%- set java_home = salt['grains.get']('java_home', salt['pillar.get']('java_home', '/usr/lib/java')) %}
