@@ -5,7 +5,7 @@
 {%- set major                = '0' %}
 {%- set minor                = '181' %}
 {%- set build                = '-b13' %}
-{%- set dirhash              = '/a58eab1ec242421181065cdc37240b08/jdk-' %}
+{%- set dirhash              = '/96a7b8442fe848ef90c96a2fad6ed6d1/jdk-' %}
 
 {# See Oracle Java SE checksums page here: https://www.oracle.com/webfolder/s/digest/8u181checksum.html #}
 {%- set default_jce_hash = 'sha256=f3020a3922efd6626c2fff45695d527f34a8020e938a49292561f18ad1320b59' %}
