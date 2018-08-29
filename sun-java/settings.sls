@@ -33,9 +33,9 @@
   {%- set java_real_home  = g.get('java_real_home', p.get('java_real_home', prefix + '/' + version_name )) %}
 {% endif %}
 
-{%- set uri = 'http://download.oracle.com/otn-pub/java/jdk/' %}
-{%- set default_source_url = uri + release + 'u' + minor + build + dirhash + release + 'u' + minor + archive %}
-{%- set default_jce_url    = uri + release + '/jce_policy-' + release + '.zip' %}
+{%- set uri = 'http://download.oracle.com/otn-pub/java/' %}
+{%- set default_source_url = uri + 'jdk/' + release + 'u' + minor + build + dirhash + release + 'u' + minor + archive %}
+{%- set default_jce_url    = uri + 'jce/' + release + '/jce_policy-' + release + '.zip' %}
 {%- set default_dl_opts      = '-b oraclelicense=accept-securebackup-cookie -L -s' %}
 
 {%- set source_url           = g.get('source_url', p.get('source_url', default_source_url)) %}
