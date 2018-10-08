@@ -1,15 +1,14 @@
 {% set p  = salt['pillar.get']('java', {}) %}
 {% set g  = salt['grains.get']('java', {}) %}
 
-{%- set release              = '8' %}
-{%- set major                = '0' %}
-{%- set minor                = '181' %}
-{%- set build                = '-b13' %}
-{%- set dirhash              = '/96a7b8442fe848ef90c96a2fad6ed6d1/jdk-' %}
+{%- set release              = p.get('release', '8') %}
+{%- set major                = p.get('major', '0') %}
+{%- set minor                = p.get('minor', '181') %}
+{%- set build                = p.get('build', '-b13') %}
+{%- set dirhash              = p.get('dirhash', '/96a7b8442fe848ef90c96a2fad6ed6d1') %}
 
 {# See Oracle Java SE checksums page here: https://www.oracle.com/webfolder/s/digest/8u181checksum.html #}
 {%- set default_jce_hash = 'sha256=f3020a3922efd6626c2fff45695d527f34a8020e938a49292561f18ad1320b59' %}
-
 {%- set default_version_name = 'jdk1.' + release + '.' + major + '_' + minor %}
 {%- set version_name         = g.get('version_name', p.get('version_name', default_version_name)) %}
 
@@ -34,7 +33,7 @@
 {% endif %}
 
 {%- set uri = 'http://download.oracle.com/otn-pub/java/' %}
-{%- set default_source_url = uri + 'jdk/' + release + 'u' + minor + build + dirhash + release + 'u' + minor + archive %}
+{%- set default_source_url = uri + 'jdk/' + release + 'u' + minor + build + dirhash + '/jdk-' + release + 'u' + minor + archive %}
 {%- set default_jce_url    = uri + 'jce/' + release + '/jce_policy-' + release + '.zip' %}
 {%- set default_dl_opts      = '-b oraclelicense=accept-securebackup-cookie -L -s' %}
 
@@ -63,7 +62,12 @@
 {%- set alt_priority         = g.get('alt_priority', p.get('alt_priority', None)) %}
 
 {%- set java = {} %}
-{%- do java.update( { 'version_name'   : version_name,
+{%- do java.update( { 'release'        : release,
+                      'major'          : major,
+                      'minor'          : minor,
+                      'build'          : build,
+                      'dirhash'        : dirhash,
+                      'version_name'   : version_name,
                       'source_url'     : source_url,
                       'source_hash'    : source_hash,
                       'jce_url'        : jce_url,
