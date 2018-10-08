@@ -35,17 +35,12 @@ java:
   jce_url: http://download.oracle.com/otn-pub/java/jce/8/jce_policy-8.zip
   jce_hash: sha256=f3020a3922efd6626c2fff45695d527f34a8020e938a49292561f18ad1320b59
 
-  ## Other formula overrides ##
+  ## Other overrides ##
   java_symlink: /usr/bin/java
   javac_symlink: /usr/bin/javac
-  dl_opts: -b oraclelicense=accept-securebackup-cookie -L -s
+  dl_opts: -b oraclelicense=accept-securebackup-cookie -L -s     ## needed by oracle otn url
   archive_type: tar
 
   ## Linux alternatives
   #alt_priority: 301800111         ## value must change for all subsequent formula run
 
-  # jre_lib_sec: /usr/share/java/jre1.8.0_181/jre/lib/security
-  # java_real_home: /usr/share/java/jre1.8.0_181
-  # java_realcmd: /usr/share/java/jre1.8.0_181/bin/java
-  # javac_realcmd: /usr/share/java/jdk1.8.0_181/bin/javac
-  # java:dl_opts - cli args to cURL
