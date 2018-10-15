@@ -10,7 +10,6 @@ jdk-config:
     - mode: 644
     - user: root
     - group: {{ java.group }}
-    - unless: test "`uname`" = "Darwin"
     - context:
       java_home: {{ java.java_home }}
 
