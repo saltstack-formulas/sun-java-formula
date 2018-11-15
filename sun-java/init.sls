@@ -10,15 +10,15 @@ java-install-dir:
   file.directory:
     - name: {{ java.prefix }}
     - user: root
-    - group: root
+    - group: {{ java.group }}
     - mode: 755
     - makedirs: True
 
-# curl fails (rc=23) if file exists (interrupte formula?)
-# and test -f cannot detect corrupted archive
-sun-java-remove-prev-archive:
+sun-java-remove-previous-os-configuration:
   file.absent:
-    - name: {{ archive_file }}
+    - names:
+      - {{ archive_file }}    #avoid rc=23 if (corrupted?) file exists.
+      - {{ java.java_home }}  #ensure file.symlink will do something
     - require:
       - file: java-install-dir
 
@@ -27,7 +27,7 @@ download-jdk-archive:
     - name: curl {{ java.dl_opts }} -o '{{ archive_file }}' '{{ java.source_url }}'
     - unless: test -f {{ java.java_realcmd }}
     - require:
-      - file: sun-java-remove-prev-archive
+      - file: sun-java-remove-previous-os-configuration
 
   {%- if java.source_hash %}
 
@@ -50,27 +50,40 @@ check-jdk-archive:
   {%- endif %}
 
 unpack-jdk-archive:
+  {% if grains.os == 'MacOS' %}
+  macpackage.installed:
+    - name: '{{ archive_file }}'
+    - store: False
+    - dmg: True
+    - app: False
+    - force: True
+    - allow_untrusted: True
+    - require_in:
+  {% else %}
   archive.extracted:
     - name: {{ java.prefix }}
     - source: file://{{ archive_file }}
     - archive_format: {{ java.archive_type }}
     - user: root
-    - group: root
+    - group: {{ java.group }}
+    - unless: test "`uname`" = "Darwin"
     - if_missing: {{ java.java_realcmd }}
+    - require_in:
+      - file: update-javahome-symlink
+  {% endif %}
+      - file: remove-jdk-archive
     - onchanges:
       - cmd: download-jdk-archive
+    - require:
+      - module: check-jdk-archive
 
 update-javahome-symlink:
   file.symlink:
     - name: {{ java.java_home }}
     - target: {{ java.java_real_home }}
-    - require:
-      - archive: unpack-jdk-archive
 
 remove-jdk-archive:
   file.absent:
     - name: {{ archive_file }}
-    - require:
-      - archive: unpack-jdk-archive
 
 {%- endif %}

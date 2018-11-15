@@ -32,4 +32,5 @@ Downloads and installs the Java Cryptography Extension (JCE) Unlimited Strength 
 
 An addition to allow easy use - places a java profile in /etc/profile.d - this way JAVA_HOME and the PATH are set correctly for all system users.
 
-Tested on RedHat/CentOS 5.X or RedHat/CentOS 6.X, AmazonOS and Ubuntu.
+
+Verified on Linux and MacOS.

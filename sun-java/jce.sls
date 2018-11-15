@@ -16,11 +16,15 @@ sun-java-jce-unzip:
 # curl fails (rc=23) if file exists
 sun-java-remove-old-jce-archive:
   file.absent:
-    - name: {{ zip_file }}
+    - names:
+      - {{ zip_file }}    #avoid rc=23 if (corrupted?) file exists.
     - require:
       - pkg: sun-java-jce-unzip 
 
 download-jce-archive:
+  file.directory:
+    - name: {{ java.jre_lib_sec }}
+    - makedirs: True
   cmd.run:
     - name: curl {{ java.dl_opts }} -o '{{ zip_file }}' '{{ java.jce_url }}'
     - creates: {{ zip_file }}
@@ -29,6 +33,7 @@ download-jce-archive:
         test ! -f {{ policy_jar_bak }}
     - require:
       - file: sun-java-remove-old-jce-archive
+      - file: download-jce-archive
 
 # FIXME: use ``archive.extracted`` state.
 # Be aware that it does not support integrity verification
@@ -56,6 +61,9 @@ backup-non-jce-jar:
     - name: mv US_export_policy.jar US_export_policy.jar.nonjce; mv local_policy.jar local_policy.jar.nonjce;
     - cwd: {{ java.jre_lib_sec }}
     - creates: {{ policy_jar_bak }}
+    - onlyif: test -d {{ java.jre_lib_sec }}
+    - require:
+      - cmd: download-jce-archive
 
 unpack-jce-archive:
   cmd.run:

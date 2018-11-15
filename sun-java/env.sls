@@ -9,7 +9,7 @@ jdk-config:
     - template: jinja
     - mode: 644
     - user: root
-    - group: root
+    - group: {{ java.group }}
     - context:
       java_home: {{ java.java_home }}
 
@@ -24,6 +24,8 @@ java-link:
   file.symlink:
     - name: {{ java.java_symlink }}
     - target: {{ java.java_realcmd }}
+    - onlyif: test -f {{ java.java_realcmd }}
+    - force: true
     - require:
       - file: javahome-link
 
@@ -32,6 +34,7 @@ javac-link:
     - name: {{ java.javac_symlink }}
     - target: {{ java.javac_realcmd }}
     - onlyif: test -f {{ java.javac_realcmd }}
+    - force: true
     - require:
       - file: java-link
 
