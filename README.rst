@@ -32,5 +32,10 @@ Downloads and installs the Java Cryptography Extension (JCE) Unlimited Strength 
 
 An addition to allow easy use - places a java profile in /etc/profile.d - this way JAVA_HOME and the PATH are set correctly for all system users.
 
+``sun-java.cacert``
+----------------
+
+An addition to allow install own CA certificates in defined keystore. If no keystore is defined, default in $JAVA_HOME/jre/lib/security/cacerts will be used. If default password for castore has been changed, provide new in pillars.
+CA certificates will only be installed if not already in keystore file.
 
 Verified on Linux and MacOS.
