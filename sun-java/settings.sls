@@ -11,6 +11,7 @@
 {%- set default_jce_hash = 'sha256=f3020a3922efd6626c2fff45695d527f34a8020e938a49292561f18ad1320b59' %}
 {%- set default_version_name = 'jdk1.' + release + '.' + major + '_' + minor %}
 {%- set version_name         = g.get('version_name', p.get('version_name', default_version_name)) %}
+{%- set default_cacert_keystore_password = 'changeit' %}
 
 {% if grains.os == 'MacOS' %}
   {% set archive = '-macosx-x64.dmg' %}
@@ -61,6 +62,11 @@
 {%- set javac_realcmd        = java_realcmd + 'c' %}
 {%- set alt_priority         = g.get('alt_priority', p.get('alt_priority', None)) %}
 
+{# Variables for deployment own CA certificates #}
+{%- set cacert_keystore        = p.get('cacert_keystore', jre_lib_sec + '/cacerts') %}
+{%- set cacert_keystore_password        = p.get('cacert_keystore_password', 'changeit' ) %}
+{%- set keytool_cmd         = p.get('keytool_cmd', java_real_home + '/bin/keytool' ) %}
+
 {%- set java = {} %}
 {%- do java.update( { 'release'        : release,
                       'major'          : major,
@@ -84,4 +90,7 @@
                       'javac_symlink'  : javac_symlink,
                       'javac_realcmd'  : javac_realcmd,
                       'alt_priority'   : alt_priority,
+                      'cacert_keystore'   : cacert_keystore,
+                      'cacert_keystore_password'   : cacert_keystore_password,
+                      'keytool_cmd'   : keytool_cmd,
                     } ) %}
