@@ -18,7 +18,6 @@ sun-java-remove-previous-os-configuration:
   file.absent:
     - names:
       - {{ archive_file }}    #avoid rc=23 if (corrupted?) file exists.
-      - {{ java.java_home }}  #ensure file.symlink will do something
     - require:
       - file: java-install-dir
 
@@ -81,6 +80,7 @@ update-javahome-symlink:
   file.symlink:
     - name: {{ java.java_home }}
     - target: {{ java.java_real_home }}
+    - force: True
 
 remove-jdk-archive:
   file.absent:
