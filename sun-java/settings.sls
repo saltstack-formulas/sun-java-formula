@@ -27,7 +27,7 @@
   {%- set default_source_hash = 'sha256=1845567095bfbfebd42ed0d09397939796d05456290fb20a83c476ba09f991d3' %}
   {%- set group = 'root' %}
   {%- set archive_type = g.get('archive_type', p.get('archive_type', 'tar' )) %}
-  {%- set java_home = salt['grains.get']('java_home', salt['pillar.get']('java_home', '/usr/lib/jvm')) %}
+  {%- set java_home = salt['grains.get']('java_home', salt['pillar.get']('java_home', '/usr/lib/java')) %}
   {%- set prefix    = g.get('prefix', p.get('prefix', '/usr/share/java')) %}
   {%- set default_symlink = '/usr/bin/java' %}
   {%- set java_real_home  = g.get('java_real_home', p.get('java_real_home', prefix + '/' + version_name )) %}
