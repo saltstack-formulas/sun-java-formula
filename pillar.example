@@ -10,6 +10,20 @@ java:
   build: ''    ##needed by oracle otn url (i.e. '-b13' for j8u181-b13 url)
   dirhash: ''  ##needed by oracle otn url (i.e. '96a7b8442fe848ef90c96a2fad6ed6d1' for j8u181-b13 url)
 
+  ## detials for CA certificates installation
+  cacert_keystore_password: 'changeit' ## passwort for keystore (default changeit)
+  cacert_keystore: jre_lib_sec + '/cacerts' ## location of store for ca serts
+  keytool_cmd: java_real_home + '/bin/keytool' ## location of keytool
+  cacert: ## list of certs to install
+    - alias: own-ca-cert-1 ## CA alias
+      source: https://my-ca.com/cert.crt ## location on CA cert (for file.managed)
+      source_hash: ## optional source hash on downloads
+      fingeprint: 49:72:74:18:6A:54:91:19:12:BF:09:BD:F6:F1:67:E7:30:47:3E:88 ## Fingerptint for CA cert (needed to get information if it is already installed)
+    - alias: own-ca-cert-2
+      source: salt://own-ca-cert-2
+      fingeprint: 49:72:74:18:6A:54:91:19:12:BF:09:BD:F6:F1:67:E7:30:47:3E:89
+      
+
   ## tarball details
   prefix: /usr/share/java       # ``prefix/version_name`` contains unpacked tarball content
   version_name: jdk1.8.0_181    # JDK; value must match top-level directory inside the tarball
