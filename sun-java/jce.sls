@@ -13,27 +13,26 @@ sun-java-jce-unzip:
   pkg.installed:
     - name: unzip
 
-# curl fails (rc=23) if file exists
-sun-java-remove-old-jce-archive:
-  file.absent:
-    - names:
-      - {{ zip_file }}    #avoid rc=23 if (corrupted?) file exists.
-    - require:
-      - pkg: sun-java-jce-unzip 
-
 download-jce-archive:
   file.directory:
     - name: {{ java.jre_lib_sec }}
     - makedirs: True
   cmd.run:
     - name: curl {{ java.dl_opts }} -o '{{ zip_file }}' '{{ java.jce_url }}'
+    - unless: test -f {{ zip_file }}
     - creates: {{ zip_file }}
     - onlyif: >
         test ! -f {{ policy_jar }} ||
         test ! -f {{ policy_jar_bak }}
     - require:
-      - file: sun-java-remove-old-jce-archive
       - file: download-jce-archive
+    {% if grains['saltversioninfo'] >= [2017, 7, 0] %}
+    - retry:
+        attempts: {{ sqlplus.dl.retries }}
+        interval: {{ sqlplus.dl.interval }}
+        until: True
+        splay: 10
+    {% endif %}
 
 # FIXME: use ``archive.extracted`` state.
 # Be aware that it does not support integrity verification
@@ -48,7 +47,7 @@ check-jce-archive:
     - name: file.check_hash
     - path: {{ zip_file }}
     - file_hash: {{ java.jce_hash }}
-    - onchanges:
+    - require:
       - cmd: download-jce-archive
     - require_in:
       - cmd: backup-non-jce-jar
@@ -74,11 +73,5 @@ unpack-jce-archive:
       - pkg: unzip
       - cmd: download-jce-archive
       - cmd: backup-non-jce-jar
-
-remove-jce-archive:
-  file.absent:
-    - name: {{ zip_file }}
-    - require:
-      - cmd: unpack-jce-archive
 
 {%- endif %}

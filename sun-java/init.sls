@@ -14,19 +14,19 @@ java-install-dir:
     - mode: 755
     - makedirs: True
 
-sun-java-remove-previous-os-configuration:
-  file.absent:
-    - names:
-      - {{ archive_file }}    #avoid rc=23 if (corrupted?) file exists.
-    - require:
-      - file: java-install-dir
-
 download-jdk-archive:
   cmd.run:
     - name: curl {{ java.dl_opts }} -o '{{ archive_file }}' '{{ java.source_url }}'
-    - unless: test -f {{ java.java_realcmd }}
+    - unless: test -f {{ archive_file }}
     - require:
-      - file: sun-java-remove-previous-os-configuration
+      - file: java-install-dir
+    {% if grains['saltversioninfo'] >= [2017, 7, 0] %}
+    - retry:
+        attempts: {{ sqlplus.dl.retries }}
+        interval: {{ sqlplus.dl.interval }}
+        until: True
+        splay: 10
+    {% endif %}
 
   {%- if java.source_hash %}
 
@@ -41,7 +41,7 @@ check-jdk-archive:
     - name: file.check_hash
     - path: {{ archive_file }}
     - file_hash: {{ java.source_hash }}
-    - onchanges:
+    - require:
       - cmd: download-jdk-archive
     - require_in:
       - archive: unpack-jdk-archive
@@ -70,20 +70,13 @@ unpack-jdk-archive:
     - require_in:
       - file: update-javahome-symlink
   {% endif %}
-      - file: remove-jdk-archive
-    - onchanges:
-      - cmd: download-jdk-archive
     - require:
-      - module: check-jdk-archive
+      - cmd: download-jdk-archive
 
 update-javahome-symlink:
   file.symlink:
     - name: {{ java.java_home }}
     - target: {{ java.java_real_home }}
     - force: True
-
-remove-jdk-archive:
-  file.absent:
-    - name: {{ archive_file }}
 
 {%- endif %}
