@@ -22,8 +22,8 @@ download-jdk-archive:
       - file: java-install-dir
     {% if grains['saltversioninfo'] >= [2017, 7, 0] %}
     - retry:
-        attempts: {{ sqlplus.dl.retries }}
-        interval: {{ sqlplus.dl.interval }}
+        attempts: 3
+        interval: 60
         until: True
         splay: 10
     {% endif %}
