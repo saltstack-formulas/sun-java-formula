@@ -1,14 +1,14 @@
 java_home: /usr/lib/java
-# See Oracle Java SE checksums page here: https://www.oracle.com/webfolder/s/digest/8u181checksum.html
+# See Oracle Java SE checksums page here: https://www.oracle.com/webfolder/s/digest/8u202checksum.html
 # Use /usr/local & /Library/Java/JavaVirtualMachines for MacOS: https://support.apple.com/en-ie/HT204899
 
 java:
   ## override Formula default version ##
   release: '8'
   major: '0'
-  minor: '181'
-  build: ''    ##needed by oracle otn url (i.e. '-b13' for j8u181-b13 url)
-  dirhash: ''  ##needed by oracle otn url (i.e. '96a7b8442fe848ef90c96a2fad6ed6d1' for j8u181-b13 url)
+  minor: '202'
+  build: ''    ##needed by oracle otn url (i.e. '-b13' for j8u202-b13 url)
+  dirhash: ''  ##needed by oracle otn url (i.e. '1961070e4c9b4e26a04e7f5a083f551e' for j8u202 url)
 
   ## detials for CA certificates installation
   cacert_keystore_password: 'changeit' ## passwort for keystore (default changeit)
@@ -26,24 +26,24 @@ java:
 
   ## tarball details
   prefix: /usr/share/java       # ``prefix/version_name`` contains unpacked tarball content
-  version_name: jdk1.8.0_181    # JDK; value must match top-level directory inside the tarball
-  #version_name: jre1.8.0_181   # JRE; value must match top-level directory inside the tarball
+  version_name: jdk1.8.0_202    # JDK; value must match top-level directory inside the tarball
+  #version_name: jre1.8.0_202   # JRE; value must match top-level directory inside the tarball
 
   ## JDK linux ##
-  source_url: http://download.example.com/jdk-8u181-linux-x64.tar.gz       ## can be internal (non-oracle) url
-  source_hash: sha256=1845567095bfbfebd42ed0d09397939796d05456290fb20a83c476ba09f991d3
+  source_url: http://download.example.com/jdk-8u202-linux-x64.tar.gz       ## can be internal (non-oracle) url
+  source_hash: sha256=9a5c32411a6a06e22b69c495b7975034409fa1652d03aeb8eb5b6f59fd4594e0
 
   ## or JDK macos ##
-  # source_url: http://download.example.com/jdk-8u181-macosx-x64.dmg       ## can be internal (non-oracle) url
-  # source_hash: sha256=3ea78e0107f855b47a55414fadaabd04b94e406050d615663d54200ec85efc9b
+  # source_url: http://download.example.com/jdk-8u202-macosx-x64.dmg       ## can be internal (non-oracle) url
+  # source_hash: sha256=b41367948cf99ca0b8d1571f116b7e3e322dd1ebdfd4d390e959164d75b97c20
 
   ## or JRE linux ##
-  # source_url: http://download.example.com/jre-8u181-linux-x64.tar.gz       ## can be internal (non-oracle) url
-  # source_hash: sha256=0b26c7fcfad20029e6e0989e678efcd4a81f0fe502a478b4972215533867de1b
+  # source_url: http://download.example.com/jre-8u202-linux-x64.tar.gz       ## can be internal (non-oracle) url
+  # source_hash: sha256=9efb1493fcf636e39c94f47bacf4f4324821df2d3aeea2dc3ea1bdc86428cb82
 
   ## or JRE macos ##
-  # source_url: http://download.oracle.com/jre-8u181-macosx-x64.dmg       ## can be internal (non-oracle) url
-  # source_hash: sha256=5a107575bb6cbd953dece50399467ebcb0c7b8f7fef4d745735457842b3e03b8
+  # source_url: http://download.oracle.com/jre-8u202-macosx-x64.dmg       ## can be internal (non-oracle) url
+  # source_hash: sha256=a11f6b4f952470fc2cf03abd34c66cbd770902a053f3f868369ae8886c5986f4
 
   ## and JCE ##
   jce_url: http://download.oracle.com/otn-pub/java/jce/8/jce_policy-8.zip
