@@ -3,11 +3,11 @@
 
 {%- set release              = p.get('release', '8') %}
 {%- set major                = p.get('major', '0') %}
-{%- set minor                = p.get('minor', '181') %}
-{%- set build                = p.get('build', '-b13') %}
-{%- set dirhash              = p.get('dirhash', '/96a7b8442fe848ef90c96a2fad6ed6d1') %}
+{%- set minor                = p.get('minor', '202') %}
+{%- set build                = p.get('build', '') %}
+{%- set dirhash              = p.get('dirhash', '/1961070e4c9b4e26a04e7f5a083f551e') %}
 
-{# See Oracle Java SE checksums page here: https://www.oracle.com/webfolder/s/digest/8u181checksum.html #}
+{# See Oracle Java SE checksums page here: https://www.oracle.com/webfolder/s/digest/8u202checksum.html #}
 {%- set default_jce_hash = 'sha256=f3020a3922efd6626c2fff45695d527f34a8020e938a49292561f18ad1320b59' %}
 {%- set default_version_name = 'jdk1.' + release + '.' + major + '_' + minor %}
 {%- set version_name         = g.get('version_name', p.get('version_name', default_version_name)) %}
@@ -15,7 +15,7 @@
 
 {% if grains.os == 'MacOS' %}
   {% set archive = '-macosx-x64.dmg' %}
-  {% set default_source_hash = 'sha256=3ea78e0107f855b47a55414fadaabd04b94e406050d615663d54200ec85efc9b' %}
+  {% set default_source_hash = 'sha256=b41367948cf99ca0b8d1571f116b7e3e322dd1ebdfd4d390e959164d75b97c20' %}
   {% set group = 'wheel' %}
   {% set archive_type = g.get('archive_type', p.get('archive_type', 'dmg' )) %}
   {% set java_home = salt['grains.get']('java_home', salt['pillar.get']('java_home', '/usr/local/lib/java')) %}
@@ -24,7 +24,7 @@
   {% set java_real_home = g.get('java_real_home', p.get('java_real_home', prefix + '/' + version_name + '.jdk/Contents/Home' )) %}
 {% else %}
   {%- set archive = '-linux-x64.tar.gz' %}
-  {%- set default_source_hash = 'sha256=1845567095bfbfebd42ed0d09397939796d05456290fb20a83c476ba09f991d3' %}
+  {%- set default_source_hash = 'sha256=9a5c32411a6a06e22b69c495b7975034409fa1652d03aeb8eb5b6f59fd4594e0' %}
   {%- set group = 'root' %}
   {%- set archive_type = g.get('archive_type', p.get('archive_type', 'tar' )) %}
   {%- set java_home = salt['grains.get']('java_home', salt['pillar.get']('java_home', '/usr/lib/java')) %}
