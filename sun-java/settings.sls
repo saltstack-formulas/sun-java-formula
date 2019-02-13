@@ -14,14 +14,14 @@
 {%- set default_cacert_keystore_password = 'changeit' %}
 
 {% if grains.os == 'MacOS' %}
-  {% set archive = '-macosx-x64.dmg' %}
-  {% set default_source_hash = 'sha256=b41367948cf99ca0b8d1571f116b7e3e322dd1ebdfd4d390e959164d75b97c20' %}
-  {% set group = 'wheel' %}
-  {% set archive_type = g.get('archive_type', p.get('archive_type', 'dmg' )) %}
-  {% set java_home = salt['grains.get']('java_home', salt['pillar.get']('java_home', '/usr/local/lib/java')) %}
-  {% set prefix    = g.get('prefix', p.get('prefix', '/Library/Java/JavaVirtualMachines')) %}
-  {% set default_symlink = '/usr/local/bin/java' %}
-  {% set java_real_home = g.get('java_real_home', p.get('java_real_home', prefix + '/' + version_name + '.jdk/Contents/Home' )) %}
+  {%- set archive = '-macosx-x64.dmg' %}
+  {%- set default_source_hash = 'sha256=b41367948cf99ca0b8d1571f116b7e3e322dd1ebdfd4d390e959164d75b97c20' %}
+  {%- set group = 'wheel' %}
+  {%- set archive_type = g.get('archive_type', p.get('archive_type', 'dmg' )) %}
+  {%- set java_home = salt['grains.get']('java_home', salt['pillar.get']('java_home', '/usr/local/lib/java')) %}
+  {%- set prefix    = g.get('prefix', p.get('prefix', '/Library/Java/JavaVirtualMachines')) %}
+  {%- set default_symlink = '/usr/local/bin/java' %}
+  {%- set java_real_home = g.get('java_real_home', p.get('java_real_home', prefix + '/' + version_name + '.jdk/Contents/Home' )) %}
 {% else %}
   {%- set archive = '-linux-x64.tar.gz' %}
   {%- set default_source_hash = 'sha256=9a5c32411a6a06e22b69c495b7975034409fa1652d03aeb8eb5b6f59fd4594e0' %}
@@ -32,6 +32,7 @@
   {%- set default_symlink = '/usr/bin/java' %}
   {%- set java_real_home  = g.get('java_real_home', p.get('java_real_home', prefix + '/' + version_name )) %}
 {% endif %}
+  {%- set tmpdir    = g.get('tmpdir', p.get('tmpdir', '/tmp/saltstack-formulas/sun-java')) %}
 
 {%- set uri = 'http://download.oracle.com/otn-pub/java/' %}
 {%- set default_source_url = uri + 'jdk/' + release + 'u' + minor + build + dirhash + '/jdk-' + release + 'u' + minor + archive %}
@@ -81,6 +82,7 @@
                       'dl_opts'        : dl_opts,
                       'java_home'      : java_home,
                       'prefix'         : prefix,
+                      'tmpdir'         : tmpdir,
                       'group'          : group,
                       'java_real_home' : java_real_home,
                       'jre_lib_sec'    : jre_lib_sec,

@@ -4,11 +4,13 @@
 
 {%- if java.source_url is defined %}
 
-  {%- set archive_file = salt['file.join'](java.prefix, salt['file.basename'](java.source_url)) %}
+  {%- set archive_file = salt['file.join'](java.tmpdir, salt['file.basename'](java.source_url)) %}
 
 java-install-dir:
   file.directory:
-    - name: {{ java.prefix }}
+    - names:
+      - {{ java.prefix }}
+      - {{ java.tmpdir }}
     - user: root
     - group: {{ java.group }}
     - mode: 755
