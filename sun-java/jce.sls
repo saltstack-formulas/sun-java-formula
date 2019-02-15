@@ -3,8 +3,8 @@
 {%- if java.jce_url is defined %}
 
   {%- set zip_file = salt['file.join'](java.jre_lib_sec, 'UnlimitedJCEPolicy.zip') %}
-  {%- set policy_jar = salt['file.join'](java.jre_lib_sec, 'US_export_policy.jar') %}
-  {%- set policy_jar_bak = salt['file.join'](java.jre_lib_sec, 'US_export_policy.jar.nonjce') %}
+  {%- set us_policy_jar = salt['file.join'](java.jre_lib_sec, 'US_export_policy.jar') %}
+  {%- set local_policy_jar = salt['file.join'](java.jre_lib_sec, 'local_policy.jar') %}
 
 include:
   - sun-java
@@ -22,8 +22,8 @@ download-jce-archive:
     - unless: test -f {{ zip_file }}
     - creates: {{ zip_file }}
     - onlyif: >
-        test ! -f {{ policy_jar }} ||
-        test ! -f {{ policy_jar_bak }}
+        test ! -f {{ us_policy_jar }} ||
+        test ! -f {{ us_policy_jar }}.nonjce
     - require:
       - file: download-jce-archive
     {% if grains['saltversioninfo'] >= [2017, 7, 0] %}
@@ -57,10 +57,12 @@ check-jce-archive:
 
 backup-non-jce-jar:
   cmd.run:
-    - name: mv US_export_policy.jar US_export_policy.jar.nonjce; mv local_policy.jar local_policy.jar.nonjce;
-    - cwd: {{ java.jre_lib_sec }}
-    - creates: {{ policy_jar_bak }}
-    - onlyif: test -d {{ java.jre_lib_sec }}
+    - name:
+      - mv {{ us_policy_jar }} {{ us_policy_jar }}.nonjce
+      - mv {{ local_policy_jar }} {{ local_policy_jar }}.nonjce
+    - onlyif:
+      - test -f {{ us_policy_jar }}
+      - test -f {{ local_policy_jar }}
     - require:
       - cmd: download-jce-archive
 
@@ -68,7 +70,9 @@ unpack-jce-archive:
   cmd.run:
     - name: unzip -j -o {{ zip_file }}
     - cwd: {{ java.jre_lib_sec }}
-    - creates: {{ policy_jar }}
+    - creates:
+      - {{ us_policy_jar }}
+      - {{ local_policy_jar }}
     - require:
       - pkg: unzip
       - cmd: download-jce-archive
