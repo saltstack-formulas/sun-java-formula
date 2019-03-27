@@ -60,6 +60,9 @@ backup-non-jce-jar:
     - name:
       - mv {{ us_policy_jar }} {{ us_policy_jar }}.nonjce
       - mv {{ local_policy_jar }} {{ local_policy_jar }}.nonjce
+    - creates:
+      - {{ us_policy_jar }}.nonjce
+      - {{ local_policy_jar }}.nonjce
     - onlyif:
       - test -f {{ us_policy_jar }}
       - test -f {{ local_policy_jar }}
