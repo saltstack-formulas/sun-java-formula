@@ -47,6 +47,9 @@ javahome-alt-install:
     - link: {{ java.java_home }}
     - path: {{ java.java_real_home }}
     - priority: {{ java.alt_priority }}
+    - retry:
+        attempts: 2
+        until: True
 
 # ensure javahome alternative
 javahome-alt-set:
@@ -55,6 +58,9 @@ javahome-alt-set:
     - path: {{ java.java_real_home }}
     - require:
       - alternatives: javahome-alt-install
+    - retry:
+        attempts: 2
+        until: True
 
 # Add java to alternatives
 java-alt-install:
@@ -65,6 +71,9 @@ java-alt-install:
     - priority: {{ java.alt_priority }}
     - require:
       - alternatives: javahome-alt-set
+    - retry:
+        attempts: 2
+        until: True
 
 # ensure java alternative
 java-alt-set:
@@ -73,6 +82,9 @@ java-alt-set:
     - path: {{ java.java_realcmd }}
     - require:
       - alternatives: java-alt-install
+    - retry:
+        attempts: 2
+        until: True
 
 # Add javac to alternatives if found
 javac-alt-install:
