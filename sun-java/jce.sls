@@ -57,7 +57,7 @@ check-jce-archive:
 
 backup-non-jce-jar:
   cmd.run:
-    - name:
+    - names:
       - mv {{ us_policy_jar }} {{ us_policy_jar }}.nonjce
       - mv {{ local_policy_jar }} {{ local_policy_jar }}.nonjce
     - creates:
