@@ -47,6 +47,11 @@ check-jdk-archive:
       - cmd: download-jdk-archive
     - require_in:
       - archive: unpack-jdk-archive
+# Get rid of corrupted file so state rerun does fresh download.
+  file.absent:
+    - name: {{ archive_file }}
+    - onfail:
+      - module: check-jdk-archive
 
   {%- endif %}
 
