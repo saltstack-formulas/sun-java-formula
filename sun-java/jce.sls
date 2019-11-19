@@ -52,6 +52,11 @@ check-jce-archive:
     - require_in:
       - cmd: backup-non-jce-jar
       - cmd: unpack-jce-archive
+# Get rid of corrupted file so state rerun does fresh download.
+  file.absent:
+    - name: {{ archive_file }}
+    - onfail:
+      - module: check-jce-archive
 
   {%- endif %}
 
