@@ -2,7 +2,7 @@
 
 {%- if java.jce_url is defined %}
 
-  {%- set zip_file = salt['file.join'](java.jre_lib_sec, 'UnlimitedJCEPolicy.zip') %}
+  {%- set archive_file = salt['file.join'](java.jre_lib_sec, 'UnlimitedJCEPolicy.zip') %}
   {%- set us_policy_jar = salt['file.join'](java.jre_lib_sec, 'US_export_policy.jar') %}
   {%- set local_policy_jar = salt['file.join'](java.jre_lib_sec, 'local_policy.jar') %}
 
@@ -18,9 +18,9 @@ download-jce-archive:
     - name: {{ java.jre_lib_sec }}
     - makedirs: True
   cmd.run:
-    - name: curl {{ java.dl_opts }} -o '{{ zip_file }}' '{{ java.jce_url }}'
-    - unless: test -f {{ zip_file }}
-    - creates: {{ zip_file }}
+    - name: curl {{ java.dl_opts }} -o '{{ archive_file }}' '{{ java.jce_url }}'
+    - unless: test -f {{ archive_file }}
+    - creates: {{ archive_file }}
     - onlyif: >
         test ! -f {{ us_policy_jar }} ||
         test ! -f {{ us_policy_jar }}.nonjce
@@ -45,7 +45,7 @@ download-jce-archive:
 check-jce-archive:
   module.run:
     - name: file.check_hash
-    - path: {{ zip_file }}
+    - path: {{ archive_file }}
     - file_hash: {{ java.jce_hash }}
     - require:
       - cmd: download-jce-archive
@@ -76,7 +76,7 @@ backup-non-jce-jar:
 
 unpack-jce-archive:
   cmd.run:
-    - name: unzip -j -o {{ zip_file }}
+    - name: unzip -j -o {{ archive_file }}
     - cwd: {{ java.jre_lib_sec }}
     - creates:
       - {{ us_policy_jar }}
